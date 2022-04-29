@@ -8,13 +8,14 @@ def generate_decompressed_files(path):
         current_tag = "hejsa"
         current_house = "hejsa"
         current_channel = "hejsa"
-        f = 5
+        f = 69
         
         for row in input_file:
             
             line = row.split(delim)
 
             if line[0] != current_tag:
+
                 try:
                     f.close()
                 except:
@@ -27,10 +28,14 @@ def generate_decompressed_files(path):
 
                 if current_house != new_house:
                     current_house = new_house
-                    os.mkdir(os.path.join(base_path, current_house))
+                    path_to_house = os.path.join(base_path, current_house)
 
-                f = open(os.path.join(base_path, current_house, current_channel), mode='wt')
+                    if not os.path.exists(path_to_house):
+                        os.mkdir(os.path.join(base_path, current_house))
+
+                f = open(os.path.join(base_path, current_house, current_channel + "_sorted.csv"), mode='wt')
 
             f.write(line[0] + " " + line[1] + " " + line[2])
 
-generate_decompressed_files("/home/simon/Development/REDD/hejsa.csv")
+
+generate_decompressed_files("/home/simon/master_public_datapointview.csv")
