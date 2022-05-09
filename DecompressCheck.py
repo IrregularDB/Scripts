@@ -29,8 +29,8 @@ def compare_timestamps(generated_timestamp, original_timestamp, threshold):
     difference = int(original_timestamp) - int(generated_timestamp)
 
     if threshold < abs(difference):
-        print("failed: code 2")
-        exit(-2)
+        print("failed: code 2 fail on timestamp check: " + "difference " + str(difference) + ", org " + str(original_timestamp) + ", generated " + str(generated_timestamp))
+        raise Exception("timestamp compare failed")
 
 
 def compare_values(generatedValueStr, originalValueStr, error_bound):
@@ -48,7 +48,10 @@ def compare_values(generatedValueStr, originalValueStr, error_bound):
 
     percentageDifference = (1 - (originalValue - abs(difference)) / originalValue) * 100
 
-    if error_bound < round(percentageDifference, 5):
+    #smallBoundBuffer = 0.005
+    if (error_bound) < round(percentageDifference, 10):
+        print("Error bound:" + error_bound)
+        print("percentageDifference: " + percentageDifference)
         print("failed: code 3")
         exit(-3)
 
@@ -69,13 +72,20 @@ def compare_files(originalDataFullPath, generatedDataFullPath, error_bound, thre
             print("Failed for files: " + originalDataFullPath + " AND: " + generatedDataFullPath)
             exit(-7)
 
+        previouseTime = -1
         for i in range(numberOfLinesInOriginalData):
             originalData = original_csv_lines[i].split(" ")
             generatedData = generated_csv_lines[i].split(" ")
+            currentTime = int(generatedData[1])
 
-            compare_timestamps(generatedData[1], originalData[1], threshold)
+            if currentTime <= previouseTime:
+                print("EXCEPTION: timestamp is lower than previous timestamp")
+                exit(1)
+
+            previouseTime = currentTime
 
             try:
+                compare_timestamps(generatedData[1], originalData[1], threshold)
                 compare_values(generatedData[2], originalData[2], error_bound)
             except:
                 print("EXCEPTION: Originalpath: " + originalDataFullPath + " Generated path: " + generatedDataFullPath + " timestampO: " + originalData[1] + " timestampG: " + generatedData[1])
@@ -83,16 +93,17 @@ def compare_files(originalDataFullPath, generatedDataFullPath, error_bound, thre
 
 def do_check():
     print("hejsa")
-    error_bound = 10 # Set to error_bound ingested with 
-    threshold = 100 # Set to threshold ingested with
+    error_bound = 10 # Set to error_bound ingested with
+    threshold = 1000 # Set to threshold ingested with
 
-    originalFiles = getFilesInOrder("/home/simon/Development/REDD/Sorted") # Set to original files that was ingested
-    generatedFiles = getFilesInOrder("/home/simon/Development/REDD/decompressed") # Set to decompressed / recreted data file path
+    originalFiles = getFilesInOrder("C:\\Users\\Kenneth\\Desktop\\integration_test\\original_redd_sorted") # Set to original files that was ingested
+    generatedFiles = getFilesInOrder("C:\\Users\\Kenneth\\Desktop\\integration_test\\split_files") # Set to decompressed / recreted data file path
 
     originalFilesList = sorted(originalFiles.values())
     generatedFilesList = sorted(generatedFiles.values())
 
     for i in range(len(originalFilesList)):
+        print("Comparing: " + originalFilesList[i] + ", with: " + generatedFilesList[i])
         compare_files(originalFilesList[i], generatedFilesList[i], error_bound, threshold)
 
     print("Success")

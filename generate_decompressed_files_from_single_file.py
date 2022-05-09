@@ -1,8 +1,8 @@
 import os 
 
 def generate_decompressed_files(path):
-    base_path = "/home/simon/Development/REDD/decompressed"
-    delim = " "
+    base_path = "C:\\Users\\Kenneth\\Desktop\\integration_test\\split_files"
+    delim = ","
     with open(path, mode='rt') as input_file:       
         
         current_tag = "hejsa"
@@ -38,4 +38,7 @@ def generate_decompressed_files(path):
             f.write(line[0] + " " + line[1] + " " + line[2])
 
 
-generate_decompressed_files("/home/simon/master_public_datapointview.csv")
+#generate_decompressed_files("/home/simon/master_public_datapointview.csv")
+path = "C:\\Users\\Kenneth\\Desktop\\integration_test\\extract_error0_thres0_socket.csv"
+print("generating decompressed files from: " + path)
+generate_decompressed_files(path)
