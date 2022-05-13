@@ -1,51 +1,49 @@
 
-// 1-12-max
-from(bucket: "bucketname")
-    |> filter(fn: (r) => r._measurement == "MEASUREMENTID", onEmpty: "drop")
-    |> range(start: "StartTime", stop: "StartTime + 12 hours")
-    |> window(every: 5m)
-    |> max()
-
-// 1-12-avg
-from(bucket: "bucketname")
-    |> range(start: "StartTime", stop: "StartTime + 12 hours")
-    |> filter(fn: (r) => r._measurement == "MEASUREMENTID", onEmpty: "drop")
+// 1-12-mean
+from(bucket: "irregularbucket")
+    |> range(start: 1303002992, stop: 1303046192)
+    |> filter(fn: (r) => r._measurement == "9")
     |> window(every: 5m)
     |> mean()
 
 // 5-12-max
-from(bucket: "bucketname")
-    |> range(start: "StartTime", stop: "StartTime + 12 hours")
-    |> filter(fn: (r) => r._measurement == "MEASUREMENTID1" 
-                        or r._measurement == "MEASUREMENTID2"
-                        or r._measurement == "MEASUREMENTID3"
-                        or r._measurement == "MEASUREMENTID4"
-                        or r._measurement == "MEASUREMENTID5"
-                        , onEmpty: "drop")
+from(bucket: "irregularbucket")
+    |> range(start: 1303002992, stop: 1303046192)
+    |> filter(fn: (r) => r._measurement == "14" 
+                        or r._measurement == "17"
+                        or r._measurement == "15"
+                        or r._measurement == "1"
+                        or r._measurement == "9")
     |> window(every: 5m)
+    |> group(columns: ["_start"])
     |> max()
 
 // Last
-from(bucket: "testbucket")
+from(bucket: "irregularbucket")
     |> range(start: 0, stop: now())
     |> last()
+    |> drop(columns: ["_start", "_stop"])
 
-// Get all values over x for timeseries ts
-from(bucket: "testbucket")
+// High value: Get all values over x for timeseries ts
+from(bucket: "irregularbucket")
     |> range(start: 0, stop: now())
-    |> filter(fn: (r) => r._measurement == "house_1-channel_1" and r._value > 69, onEmpty: "drop")
-
-// All values with specific value
-from(bucket: "testbucket")
-    |> range(start: 0, stop: now())
-    |> filter(fn: (r) => r._measurement == "house_1-channel_1" and r._value == 69, onEmpty: "drop")
+    |> filter(fn: (r) => r._measurement == "456" and r._value > 13318.5, onEmpty: "drop")
+    |> drop(columns: ["_start", "_stop"])
 
 // Timestamp point 
-from(bucket: "testbucket")
+from(bucket: "irregularbucket")
     |> range(start: 0, stop: now())
-    |> filter(fn: (r) => r._measurement == "house_1-channel_1" and r._time == 69, onEmpty: "drop")
+    |> filter(fn: (r) => r._measurement == "7768" and r._time == 1303134414000, onEmpty: "drop")
+    |> drop(columns: ["_start", "_stop"])
+
+// Value point: All values with specific value
+from(bucket: "irregularbucket")
+    |> range(start: 0, stop: now())
+    |> filter(fn: (r) => r._measurement == "996" and r._value == 137.184, onEmpty: "drop")
+    |> drop(columns: ["_start", "_stop"])
 
 // Entire ts
-from(bucket: "testbucket")
+from(bucket: "irregularbucket")
     |> range(start: 0, stop: now())
-    |> filter(fn: (r) => r._measurement == "tsid")
+    |> filter(fn: (r) => r._measurement == "10004")
+    |> drop(columns: ["_start", "_stop"])
