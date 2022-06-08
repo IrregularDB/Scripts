@@ -1,7 +1,7 @@
 import os 
 
 def generate_decompressed_files(path):
-    base_path = "C:\\Users\\Kenneth\\Desktop\\integration_test\\split_files"
+    base_path = "/home/simon/Development/REDD/decompressed"
     delim = ","
     with open(path, mode='rt') as input_file:       
         
@@ -39,6 +39,6 @@ def generate_decompressed_files(path):
 
 
 #generate_decompressed_files("/home/simon/master_public_datapointview.csv")
-path = "C:\\Users\\Kenneth\\Desktop\\integration_test\\extract_error0_thres0_socket.csv"
+path = "/home/simon/intTestThreshold0Error0.csv"
 print("generating decompressed files from: " + path)
 generate_decompressed_files(path)

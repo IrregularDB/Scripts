@@ -32,14 +32,14 @@ from(bucket: "irregularbucket")
 
 // Timestamp point 
 from(bucket: "irregularbucket")
-    |> range(start: 0, stop: now())
+    |> range(start: 1303134414000, stop: 1303134414000)
     |> filter(fn: (r) => r._measurement == "7768" and r._time == 1303134414000, onEmpty: "drop")
     |> drop(columns: ["_start", "_stop"])
 
 // Value point: All values with specific value
 from(bucket: "irregularbucket")
     |> range(start: 0, stop: now())
-    |> filter(fn: (r) => r._measurement == "996" and r._value == 137.184, onEmpty: "drop")
+    |> filter(fn: (r) => r._measurement == "996" and r._value == 318.5475612997497, onEmpty: "drop")
     |> drop(columns: ["_start", "_stop"])
 
 // Entire ts

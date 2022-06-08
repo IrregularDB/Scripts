@@ -80,6 +80,7 @@ def compare_files(originalDataFullPath, generatedDataFullPath, error_bound, thre
 
             if currentTime <= previouseTime:
                 print("EXCEPTION: timestamp is lower than previous timestamp")
+                print(currentTime)
                 exit(1)
 
             previouseTime = currentTime
@@ -96,8 +97,8 @@ def do_check():
     error_bound = 10 # Set to error_bound ingested with
     threshold = 1000 # Set to threshold ingested with
 
-    originalFiles = getFilesInOrder("C:\\Users\\Kenneth\\Desktop\\integration_test\\original_redd_sorted") # Set to original files that was ingested
-    generatedFiles = getFilesInOrder("C:\\Users\\Kenneth\\Desktop\\integration_test\\split_files") # Set to decompressed / recreted data file path
+    originalFiles = getFilesInOrder("/home/simon/Development/REDD/IntegrationTestVerification") # Set to original files that was ingested
+    generatedFiles = getFilesInOrder("/home/simon/Development/REDD/decompressed") # Set to decompressed / recreted data file path
 
     originalFilesList = sorted(originalFiles.values())
     generatedFilesList = sorted(generatedFiles.values())
