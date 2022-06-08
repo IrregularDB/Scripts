@@ -1,4 +1,3 @@
-
 // 1-12-mean
 from(bucket: "irregularbucket")
     |> range(start: 1303002992, stop: 1303046192)
