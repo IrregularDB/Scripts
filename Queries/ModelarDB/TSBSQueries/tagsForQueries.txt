@@ -1,0 +1,12 @@
+Query ; Tag
+1-12; host-2/diskio/writes.csv
+5-12; host-0/cpu/usage_idle.csv
+5-12; host-0/mem/used_percent.csv
+5-12; host-1/cpu/usage_idle.csv
+5-12; host-1/mem/used_percent.csv
+5-12; host-2/cpu/usage_idle.csv
+High value; host-0/CPU/usage_idle
+time point; host-1/postgresl/deadlocks.csv
+value point; host-2/net/bytes_recv.csv
+All; host-0/redis/sync_full.csx
+
